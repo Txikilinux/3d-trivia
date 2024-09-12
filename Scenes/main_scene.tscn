@@ -1,0 +1,91 @@
+[gd_scene load_steps=12 format=3 uid="uid://c44jnbsvrel01"]
+
+[ext_resource type="Script" path="res://Scripts/path_follow_3d.gd" id="1_26yr2"]
+
+[sub_resource type="Environment" id="Environment_nv1ro"]
+ambient_light_color = Color(1, 0.966164, 0.847239, 1)
+ambient_light_energy = 3.85
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_g14px"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_brehx"]
+size = Vector3(8.90332, 0.0742188, 9.65863)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5r4sy"]
+albedo_color = Color(0.654902, 0.447059, 0.168627, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_l12mb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_boo7h"]
+albedo_color = Color(5.77569e-07, 0.389478, 0.555495, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ejjgq"]
+material = SubResource("StandardMaterial3D_boo7h")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_svtdg"]
+albedo_color = Color(0.687043, 0, 0.0174865, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_5m038"]
+material = SubResource("StandardMaterial3D_svtdg")
+
+[sub_resource type="Curve3D" id="Curve3D_nf81a"]
+bake_interval = 6.0
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -3.45642, -0.601804, -0.0127978, 0, 0, 0, 0, 0, 0, -0.320626, -1.22572, -5.57226, 0, 0, 0, 0, 0, 0, 2.00278, -0.712544, -3.51095, 0, 0, 0, 0, 0, 0, 3.87086, -1.11897, -3.4787),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_nv1ro")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_g14px")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_brehx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(10, 0, 0, 0, 0.2, 0, 0, 0, 10, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_5r4sy")
+mesh = SubResource("BoxMesh_l12mb")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.96394, 4.1692, -1.43541)
+light_color = Color(1, 0.904285, 0.94979, 1)
+light_energy = 9.727
+light_indirect_energy = 3.586
+
+[node name="Blueman" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.32413, 1.17251, -1.52645)
+mesh = SubResource("CapsuleMesh_ejjgq")
+skeleton = NodePath("")
+
+[node name="Label3D" type="Label3D" parent="Blueman"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 1.54534, 0)
+text = "- Aburto
+- Adusto
+- Alberto"
+
+[node name="Redman" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.32413, 1.21158, 0)
+mesh = SubResource("CapsuleMesh_5m038")
+skeleton = NodePath("")
+
+[node name="Label3D" type="Label3D" parent="Redman"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.03968, 0)
+text = "Pregunta 1: ¿cómo se llama el alcalde de Bilbao?"
+
+[node name="Path3D" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 3.472, 3.22354)
+curve = SubResource("Curve3D_nf81a")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(0.870997, 0.0477944, -0.488951, -1.86264e-09, 0.99525, 0.097285, 0.491282, -0.084735, 0.866864, -3.45642, -0.601804, -0.0127978)
+loop = false
+script = ExtResource("1_26yr2")
+
+[node name="Camera3D" type="Camera3D" parent="Path3D/PathFollow3D"]
+transform = Transform3D(1, 0, 0, 0, 1.00001, 0, 0, 0, 1, -0.0965843, 0.644329, 0.151724)
